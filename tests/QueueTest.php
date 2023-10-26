@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
-use Queue;
+// use Queue;
 use PHPUnit\Framework\TestCase;
 
 
@@ -18,7 +18,7 @@ class QueueTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         //this method is run before the test
-        static::$q = new Queue([1, 2, 3, 'itemsy']);
+        static::$q = new Queue([1, '3', 'itemsy']);
     }
 
     public static function tearDownBeforeClass(): void
@@ -44,7 +44,6 @@ class QueueTest extends TestCase
     public function testPushingNewItemToArray() 
     {
 
-        
         $countBefore = static::$q->getCount();
         static::$q->push('extra_item');
         $countAfter = static::$q->getCount();
@@ -59,4 +58,17 @@ class QueueTest extends TestCase
         $this->assertEquals('first', $poppedItem);
     }
     
+
+    public function testMaxNumberOfItemsInTheQueueException()
+    {
+        $this->q = new Queue(['first', 'second', 'third', 'fouth', 'fifth']);
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage("Queue is full");
+        $this->q->push('one_more');// this is where exception happens
+
+
+
+        // $this->assertEquals($this->q->getCount(), Queue::MAX_ITEMS_NUMBER);
+    }
+
 }

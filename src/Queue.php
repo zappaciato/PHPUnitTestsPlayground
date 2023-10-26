@@ -8,6 +8,10 @@
 class Queue
 {
 
+    /**
+     * @var integer
+     */
+    public const MAX_ITEMS_NUMBER = 4;
 
     /**
      * Queue items
@@ -26,6 +30,9 @@ class Queue
      */
     public function push($item)
     {
+        if($this->getCount() > static::MAX_ITEMS_NUMBER) {
+            throw new Exception("Queue is full");
+        }
         $this->items[] = $item;
     }
 
