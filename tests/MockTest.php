@@ -1,15 +1,19 @@
 <?php
 
-use Mailer;
+// use Mailer;
 use PHPUnit\Framework\TestCase;
 
 class MockTest extends TestCase
 {
     public function testMock()
     {
-        $mailer = new Mailer();
-        $result = $mailer->sendMessage('kk@krissu.pl', 'Hello boyo!');
+        // $mailer = new Mailer();
+        // $result = $mailer->sendMessage('kk@krissu.pl', 'Hello boyo!');
 
-        var_dump($result);
+        $mock = $this->createMock(Mailer::class);
+        $mock->method('sendMessage')
+            ->willReturn(true);
+        $result = $mock->sendMessage('kk@krissu.pl', 'Hello boyo!');
+        $this->assertTrue($result);
     }
 }
