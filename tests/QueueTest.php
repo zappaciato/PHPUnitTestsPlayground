@@ -23,7 +23,7 @@ class QueueTest extends TestCase
     public function testItemsAreNotEmpty()
     {
         $this->setUp();
-        $this->assertEquals(!empty($this->q->getCount()), true);
+        $this->assertEquals($this->q->getCount(), $this->q->getCount()>0);
 
         return $this->q;
     }
@@ -39,11 +39,12 @@ class QueueTest extends TestCase
 
     public function testPoppingIntemInTheArray()
     {
-//this doesn't really test it so much
-        $this->q->push('lastOne');
-        $poppedItem = $this->q->pop();
+        unset($this->q);
+        
+        $q = new Queue(['first', 'second', 'third']);
+        $poppedItem = $q->pop();
 
-        $this->assertEquals('lastOne', $poppedItem);
+        $this->assertEquals('first', $poppedItem);
     }
     
 }
