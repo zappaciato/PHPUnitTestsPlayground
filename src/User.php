@@ -27,6 +27,6 @@ class User
      */
     public function getFullName(): string
     {
-        return trim("$this->first_name $this->surname");
+        return trim("$this->first_name $this->surname"); //cuts aout empty space.. if there's no name or surname it will return empty string not a string with a space in it;
     }
 }
