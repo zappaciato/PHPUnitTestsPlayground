@@ -28,13 +28,6 @@ class QueueTest extends TestCase
         return $this->q;
     }
 
-
-    /**
-     * Undocumented function
-     * @depends testItemsAreNotEmpty
-     *
-     * @return void
-     */
     public function testPushingNewItemToArray() 
     {
 
@@ -44,14 +37,9 @@ class QueueTest extends TestCase
         $this->assertEquals($countBefore+1, $countAfter);
     }
 
-    /**
-     * Undocumented function
-     * @depends testItemsAreNotEmpty
-     * @return void
-     */
     public function testPoppingIntemInTheArray()
     {
-
+//this doesn't really test it so much
         $this->q->push('lastOne');
         $poppedItem = $this->q->pop();
 
