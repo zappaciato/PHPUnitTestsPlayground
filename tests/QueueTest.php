@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\MockObject\ReturnValueNotConfiguredException;
 use Queue;
 use PHPUnit\Framework\TestCase;
 
@@ -7,40 +8,51 @@ use PHPUnit\Framework\TestCase;
 class QueueTest extends TestCase 
 {
     //fixture of this class
-    protected $q;
+    protected static $q;
 
     protected function setUp(): void
     {
-        $this->q = new Queue([1, 2, 3, 'itemsy']);
+        static::$q->clear();
+    }
+
+    public static function setUpBeforeClass(): void
+    {
+        //this method is run before the test
+        static::$q = new Queue([1, 2, 3, 'itemsy']);
+    }
+
+    public static function tearDownBeforeClass(): void
+    {
+        //this method is run AFTER the test
+        static::$q = null;
     }
 
     public function testItemsAreEmpty()
     {
-        $q = new Queue([]);
-        $this->assertEquals($q->getCount(), 0);
+
+        $this->assertEquals(static::$q->getCount(), 0);
     }
 
     public function testItemsAreNotEmpty()
     {
-        $this->setUp();
-        $this->assertEquals($this->q->getCount(), $this->q->getCount()>0);
 
-        return $this->q;
+        $this->setUp();
+        $this->assertEquals(static::$q->getCount(), static::$q->getCount()>0);
+
     }
 
     public function testPushingNewItemToArray() 
     {
 
-        $countBefore = $this->q->getCount();
-        $this->q->push('extra_item');
-        $countAfter = $this->q->getCount();
+        
+        $countBefore = static::$q->getCount();
+        static::$q->push('extra_item');
+        $countAfter = static::$q->getCount();
         $this->assertEquals($countBefore+1, $countAfter);
     }
 
     public function testPoppingIntemInTheArray()
     {
-        unset($this->q);
-        
         $q = new Queue(['first', 'second', 'third']);
         $poppedItem = $q->pop();
 
