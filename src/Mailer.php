@@ -19,9 +19,9 @@ class Mailer
     {
         // Use mail() or PHPMailer for example
         sleep(3);
+        $fullMessage = "Sent".$message. " to " . $email;
+        // echo "send '$message' to '$email'";
 
-        echo "send '$message' to '$email'";
-
-        return true;
+        return $fullMessage;
     }
 }

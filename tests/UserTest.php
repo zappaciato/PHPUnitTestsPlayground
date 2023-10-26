@@ -20,4 +20,15 @@ final class UserTest extends TestCase
 
         $this->assertEquals('', $user->getFullName());
     }
+
+    public function testNotificationIsSent()
+    {
+        $user = new User();
+        $user->email  = 'kk@gmail.com';
+        $message = 'Hello boyo!';
+        // $this->assertTrue($user->notify($user->email, $message));
+        $actual = $user->notify($message);
+        $expected = "Sent" . $message . " to " . $user->email;
+        $this->assertSame($expected, $actual);
+    }
 }
