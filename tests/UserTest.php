@@ -1,6 +1,7 @@
 <?php
 
 
+// use Exception;
 use PHPUnit\Framework\TestCase;
 
 final class UserTest extends TestCase
@@ -24,11 +25,33 @@ final class UserTest extends TestCase
     public function testNotificationIsSent()
     {
         $user = new User();
-        $user->email  = 'kk@gmail.com';
+        $mock_mailer = $this->createMock(Mailer::class);
+        $mock_mailer->expects($this->once())
+        ->method('sendMessage')->with($this->equalTo('kk@krissu.pl'), $this->equalTo('Hello boyo!'))
+        ->willReturn(true);
+        $user->setMailer($mock_mailer);
+        $user->email  = 'kk@krissu.pl';
         $message = 'Hello boyo!';
-        // $this->assertTrue($user->notify($user->email, $message));
-        $actual = $user->notify($message);
-        $expected = "Sent" . $message . " to " . $user->email;
-        $this->assertSame($expected, $actual);
+        $this->assertTrue($user->notify($message));
+        // $actual = $user->notify($message);
+        // $expected = "Sent" . $message . " to " . $user->email;
+        // $this->assertSame($expected, $actual);
+
+
+    }
+
+
+    public function testConnotNotifyUserWithNoEmail()
+    {
+
+        $user = new User();
+        $mock_mailer = $this->createMock(Mailer::class);
+        $mock_mailer->method('sendMessage')
+                ->will($this->throwException(new Exception()));
+        $user->setMailer($mock_mailer);
+        // $user->email = '';
+        $this->expectException(Exception::class);
+        $user->notify('Hello boyo!');
+
     }
 }

@@ -17,11 +17,20 @@ class Mailer
      */
     public function sendMessage($email, $message)
     {
+
+        if(isset($email)) 
+        {
+            throw new Exception;
+        }
         // Use mail() or PHPMailer for example
         sleep(3);
-        $fullMessage = "Sent".$message. " to " . $email;
-        // echo "send '$message' to '$email'";
+        // $fullMessage = "Sent".$message. " to " . $email;
+        echo "send '$message' to '$email'";
 
-        return $fullMessage;
+        return true;
     }
+
+
+
+
 }

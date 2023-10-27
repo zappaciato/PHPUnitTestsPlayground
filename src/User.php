@@ -27,6 +27,13 @@ class User
  */
     public $email;
 
+/**
+ * Undocumented variable
+ *
+ * @var Mailer
+ */
+    protected Mailer $mailer;
+
     /**
      * Get the user's full name from their first name and surname
      *
@@ -39,7 +46,12 @@ class User
 
     public function notify($message)
     {
-        $mailer = new Mailer();
-        return $mailer->sendMessage($this->email, $message);
+        // $mailer = new Mailer();
+        return $this->mailer->sendMessage($this->email, $message);
+    }
+
+    public function setMailer(Mailer $mailer)
+    {
+        $this->mailer = $mailer;
     }
 }
