@@ -2,6 +2,7 @@
 
 
 // use Exception;
+use Mailer;
 use PHPUnit\Framework\TestCase;
 
 final class UserTest extends TestCase
@@ -45,11 +46,11 @@ final class UserTest extends TestCase
     {
 
         $user = new User();
-        $mock_mailer = $this->createMock(Mailer::class);
-        $mock_mailer->method('sendMessage')
-                ->will($this->throwException(new Exception()));
+        $mock_mailer = $this->getMockBuilder(Mailer::class)->onlyMethods(['sendMessage'])->getMock();
+
         $user->setMailer($mock_mailer);
-        // $user->email = '';
+        $mock_mailer->method('sendMessage')
+        ->willThrowException(new Exception());
         $this->expectException(Exception::class);
         $user->notify('Hello boyo!');
 
