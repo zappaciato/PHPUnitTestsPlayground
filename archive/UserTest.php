@@ -2,7 +2,7 @@
 
 
 // use Exception;
-use Mailer;
+// use Mailer;
 use PHPUnit\Framework\TestCase;
 
 final class UserTest extends TestCase
